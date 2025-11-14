@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Midshipman Marketplace (Pure CSS)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            padding: 32px 16px;
+            min-height: 100vh;
+        }
+
+        /* Main Container */
+        .marketplace-container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+        }
+
+        /* 1. Header (Flexbox) */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Sell/Buy Tabs */
+        .tabs {
+            display: flex;
+            background-color: #e5e7eb;
+            border-radius: 9999px; /* Pill shape */
+            padding: 4px;
+        }
+
+        .tab-button {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .tab-button.active {
+            background-color: #2563eb; /* Blue 600 */
+            color: #ffffff;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:not(.active) {
+            background-color: transparent;
+            color: #4b5563;
+        }
+
+        .tab-button:not(.active):hover {
+            background-color: #d1d5db; /* Gray 200 */
+        }
+
+        /* Account Icons */
+        .account-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            border: 2px solid #9ca3af;
+            cursor: pointer;
+            transition: background-color 5s;
+        }
+
+        .account-icon:hover {
+            background-color: #d1d5db;
+        }
+
+        /* 2. Action Area (Flexbox) */
+        .action-area {
+            margin-bottom: 24px;
+        }
+
+        .create-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s;
+        }
+
+        .create-button:hover {
+            background-color: #1d4ed8; /* Blue 700 */
+        }
+        
+        /* Plus Icon inside button */
+        .plus-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* 3. Product Grid (CSS Grid) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Default 4 columns */
+            gap: 24px;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .image-placeholder {
+            height: 160px;
+            background-color: #d1d5db; /* Gray 300 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 16px;
+        }
+
+        .image-placeholder span {
+            font-size: 0.875rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .product-details {
+            padding: 12px;
+        }
+
+        .product-details .price {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .product-details .name {
+            font-size: 0.875rem;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Main Marketplace Container -->
+    <div class="marketplace-container">
+
+        <!-- 1. Top Header & Navigation -->
+        <header class="header">
+            <h1>Midshipman Marketplace</h1>
+
+            <div class="nav-controls">
+                <!-- Sell/Buy Tabs -->
+                <div class="tabs">
+                    <button class="tab-button active">Sell</button>
+                    <button class="tab-button">Buy</button>
+                </div>
+
+                <!-- Chat/Account Icons (Placeholder Circles) -->
+                 <!-- TODO: Add small images here and links to those pages -->
+                <div class="account-icon" aria-label="Messages"></div>
+                <div class="account-icon" aria-label="User Profile"></div>
+            </div>
+        </header>
+
+        <!-- 2. Action Area -->
+        <div class="action-area">
+            <!-- Create Listing Button -->
+            <button class="create-button">
+                <!-- Plus Icon SVG -->
+                <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                <span>Create Listing</span>
+            </button>
+        </div>
+
+        <!-- 3. Product Grid (4x2 layout, responsive) -->
+        <main class="product-grid">
+
+            <!-- Product Card 1 (Detailed Example) -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Image of a listed item</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$25.00</p>
+                    <p class="name">Vintage Textbook - Chem 101</p>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$10.00</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$15.50</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$5.00</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 5 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$40.00</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 6 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$12.99</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 7 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$8.50</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+            <!-- Product Card 8 -->
+            <div class="product-card">
+                <div class="image-placeholder">
+                    <span>Item Placeholder</span>
+                </div>
+                <div class="product-details">
+                    <p class="price">$19.99</p>
+                    <p class="name">Item Name</p>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
