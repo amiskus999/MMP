@@ -193,6 +193,8 @@
                         const div = document.createElement("div");
                         div.className = "image-item";
 
+                        div.fileObject = file;  // attach the file to the div element, so we can retrieve it later for submission.
+
                         div.innerHTML = `
                 <img src="${url}">
                 <button class="remove-btn">&times;</button>
@@ -265,19 +267,63 @@
         });
 
         // Submit handler
-        function submitListing() {
-            const data = {
-                title: document.getElementById("title").value,
-                price: document.getElementById("price").value,
-                condition: selectedCondition,
-                description: document.getElementById("description").value
-            };
+        async function submitListing() {
+            const title = document.getElementById("title").value;
+            const price = document.getElementById("price").value;
+            const description = document.getElementById("description").value;
 
-            console.log("Submitting:", data);
+            // --- 1. Validation ---
+            if (!title || !price || !selectedCondition || !description) {
+                alert("Please fill out all fields.");
+                return;
+            }
+            if (images.length === 0) {
+                alert("Please add at least one image.");
+                return;
+            }
 
-            // Here you'd POST to your PHP backend:
-            // fetch("create_listing.php", { method:"POST", body: JSON.stringify(data) })
-        }
+            // --- 2. Build FormData ---
+            // FormData is the modern way to send files and text via fetch
+            const formData = new FormData();
+            
+            // Add all the text data
+            formData.append('title', title);
+            formData.append('price', price);
+            formData.append('condition', selectedCondition);
+            formData.append('description', description);
+
+            // Add all the image files
+            // We loop through our 'images' (divs) array and get the fileObject from each
+            for (const div of images) {
+                // 'images[]' tells PHP to create an array of files
+                formData.append('images[]', div.fileObject, div.fileObject.name);
+            }
+
+            // --- 3. Send to Server ---
+            try {
+                const response = await fetch("submitListing.php", {
+                    method: "POST",
+                    body: formData // No headers needed; browser sets multipart/form-data
+                });
+
+                // Get the JSON response from PHP
+                const result = await response.json();
+
+                if (result.success) {
+                    alert("Success! Your item has been posted.");
+                    // Redirect to the market page
+                    window.location.href = "market.php"; 
+                } else {
+                    // Show a specific error from the server
+                    alert("Error: " + result.message);
+                }
+
+            } catch (error) {
+                console.error("Submission error:", error);
+                alert("An error occurred while submitting. Please try again.");
+            }
+    
+            }
     </script>
 
 </body>
