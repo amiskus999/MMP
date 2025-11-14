@@ -1,0 +1,15 @@
+[
+    {
+        "id": "item_691735b4ce2ef",
+        "user_id": 123,
+        "title": "Teddy Bear",
+        "description": "My favorite teddy bear I have slept with since I was a wee lad.",
+        "price": 20,
+        "condition": "Used - Good",
+        "image_paths": [
+            "uploads\/691735b4cd6b1_teddy.jpg"
+        ],
+        "posted_at": "2025-11-14 13:59:16",
+        "is_active": true
+    }
+]
