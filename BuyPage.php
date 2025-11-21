@@ -194,6 +194,33 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .search-input {
+            width: 320px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            /* Gray 300 – matches your components */
+            background-color: #f0f4f8;
+            /* Same as page background */
+            color: #1f2937;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .search-input::placeholder {
+            color: #9ca3af;
+            /* Gray 400 placeholder */
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+            /* Blue 600 — same as active tab */
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            /* Subtle focus ring */
+        }
     </style>
 </head>
 
@@ -209,8 +236,8 @@
             <div class="nav-controls">
                 <!-- Sell/Buy Tabs -->
                 <div class="tabs">
-                    <a href="#"><button class="tab-button active">Sell</button></a>
-                    <a href="BuyPage.php"> <button class="tab-button">Buy</button></a>
+                    <a href="SellPage.php"><button class="tab-button">Sell</button></a>
+                    <a href="#"> <button class="tab-button active">Buy</button></a>
                 </div>
 
                 <!-- Chat/Account Icons (Placeholder Circles) -->
@@ -222,16 +249,8 @@
 
         <!-- 2. Action Area -->
         <div class="action-area">
-            <!-- Create Listing Button -->
-            <a href="ListNewItem.html" style="text-decoration:none"> <button class="create-button">
-                    <!-- Plus Icon SVG -->
-                    <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span>Create Listing</span>
-                </button> </a>
+            <!-- Search bar -->
+            <input type="text" class="search-input" placeholder="Search items...">
         </div>
 
         <!-- 3. Product Grid (4x2 layout, responsive) -->
