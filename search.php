@@ -28,5 +28,22 @@ else{
 	exit;
 }
 
+// Loop through the listings[] and find matching items
+foreach($listings as $item){
+
+	// Only check active listings
+	if(isset($item['active']) && $item['active']){
+
+		// Check if the keyword is contained within the title or description of the item
+		if(str_contains(strtolower($item['title']), strtolower($keyword)) || 
+		   str_contains(strtolower($item['description']), strtolower($keyword))){
+			$listingsToReturn[] = $item;		// If it is: add the item to the return array
+		}
+	}
+}
+
+// Return the json
+echo json_encode($listingsToReturn);
+exit;
 
 ?>
