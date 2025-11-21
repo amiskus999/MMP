@@ -246,12 +246,12 @@
         <textarea id="description" rows="4" placeholder="Description"></textarea>
 
         <!-- TODO: check if this is suppposted to be a POST form or not -->
-        <form action="submitListing.php" method="post">
+        <!-- <form action="submitListing.php" method="post"> -->
         <div class="action-buttons">
             <button class="cancel-btn">Cancel</button>
-            <button type="submit" class="publish-btn"> Publish</button>
+            <button class="publish-btn" onclick="submitListing()"> Publish</button>
         </div>
-        </form>
+        <!-- </form> -->
     </div>
 
 
@@ -314,7 +314,7 @@
                 if (result.success) {
                     alert("Success! Your item has been posted.");
                     // Redirect to the market page
-                    window.location.href = "market.php"; 
+                    window.location.href = "SellPage.php"; 
                 } else {
                     // Show a specific error from the server
                     alert("Error: " + result.message);

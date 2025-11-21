@@ -102,8 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $db_file = 'data/listings.json';
     $listings = [];
     if (file_exists($db_file)) {
-        $json_data = file_get_contents($db_file);
-        $listings = json_decode($json_data, true);
+        $json_data = file_get_contents($db_file);   // Get content from listings.json
+        $listings = json_decode($json_data, true);  // Decode into an array
     }
 
     $listings[] = $newListing;

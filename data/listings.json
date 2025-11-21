@@ -50,5 +50,44 @@
         ],
         "posted_at": "2025-11-21 13:40:33",
         "is_active": true
+    },
+    {
+        "id": "item_69206f596dbc8",
+        "user_id": 123,
+        "title": "teddy3x",
+        "description": "Bestest Teddy Ever!!!",
+        "price": 1000,
+        "condition": "New",
+        "image_paths": [
+            "uploads\/69206f596d25d_teddy.jpg"
+        ],
+        "posted_at": "2025-11-21 13:55:37",
+        "is_active": true
+    },
+    {
+        "id": "item_69206fb600ee5",
+        "user_id": 123,
+        "title": "teddy4x",
+        "description": "Bestest Teddy Ever!!!",
+        "price": 1000,
+        "condition": "New",
+        "image_paths": [
+            "uploads\/69206fb60046f_teddy.jpg"
+        ],
+        "posted_at": "2025-11-21 13:57:10",
+        "is_active": true
+    },
+    {
+        "id": "item_69206fd641b41",
+        "user_id": 123,
+        "title": "teddybear",
+        "description": "michaels teddy bear",
+        "price": 10000,
+        "condition": "New",
+        "image_paths": [
+            "uploads\/69206fd641178_teddy.jpg"
+        ],
+        "posted_at": "2025-11-21 13:57:42",
+        "is_active": true
     }
 ]
