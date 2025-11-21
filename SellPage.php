@@ -216,113 +216,46 @@
         <!-- 2. Action Area -->
         <div class="action-area">
             <!-- Create Listing Button -->
-            <button class="create-button">
+            <a href="ListNewItem.html" style="text-decoration:none"> <button class="create-button">
                 <!-- Plus Icon SVG -->
                 <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
                 <span>Create Listing</span>
-            </button>
+            </button> </a>
         </div>
 
         <!-- 3. Product Grid (4x2 layout, responsive) -->
         <main class="product-grid">
 
-            <!-- TODO: Read in the listings.json file -->
-            
+            <!-- Read in the listings.json file -->
+            <?php
+            $jsonFilePath = 'data/listings.json'; // Path to all selling items
 
-            <!-- TODO: iterate over, produce a card for each listing -->
-            <!-- Product Card 1 (Detailed Example) -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Image of a listed item</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$25.00</p>
-                    <p class="name">Vintage Textbook - Chem 101</p>
-                </div>
-            </div>
+            if (file_exists($jsonFilePath)) {
+                $jsonData = file_get_contents($jsonFilePath);
+                $data = json_decode($jsonData, true); // Decode as associative array
 
-            <!-- Product Card 2 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$10.00</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
+                foreach ($data as $key => $value) {
 
-            <!-- Product Card 3 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$15.50</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
-            <!-- Product Card 4 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$5.00</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
-            <!-- Product Card 5 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$40.00</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
-            <!-- Product Card 6 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$12.99</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
-            <!-- Product Card 7 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$8.50</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
-            <!-- Product Card 8 -->
-            <div class="product-card">
-                <div class="image-placeholder">
-                    <span>Item Placeholder</span>
-                </div>
-                <div class="product-details">
-                    <p class="price">$19.99</p>
-                    <p class="name">Item Name</p>
-                </div>
-            </div>
-
+                    // Print each product card
+                    echo '<div class="product-card">';
+                    echo '<div class="image-placeholder">';
+                    $imagePath = $value['image_paths'][0];
+                    echo '<span>';
+                    echo '<img src="' . $imagePath . '" alt="Img unavailable" height="160"';
+                    echo '</span>';
+                    echo '</div> <div class="product-details">';
+                    echo '<p class="price">$' . $value['price'] . '</p>';
+                    echo '<p class="name">' . $value['title'] . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "JSON file not found.";
+            }
+            ?>
         </main>
-
     </div>
-
 </body>
 </html>
