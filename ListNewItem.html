@@ -248,7 +248,7 @@
         <!-- TODO: check if this is suppposted to be a POST form or not -->
         <!-- <form action="submitListing.php" method="post"> -->
         <div class="action-buttons">
-            <button class="cancel-btn">Cancel</button>
+            <a href="SellPage.php"><button class="cancel-btn">Cancel</button></a>
             <button class="publish-btn" onclick="submitListing()"> Publish</button>
         </div>
         <!-- </form> -->
@@ -287,7 +287,7 @@
             // --- 2. Build FormData ---
             // FormData is the modern way to send files and text via fetch
             const formData = new FormData();
-            
+
             // Add all the text data
             formData.append('title', title);
             formData.append('price', price);
@@ -314,7 +314,7 @@
                 if (result.success) {
                     alert("Success! Your item has been posted.");
                     // Redirect to the market page
-                    window.location.href = "SellPage.php"; 
+                    window.location.href = "SellPage.php";
                 } else {
                     // Show a specific error from the server
                     alert("Error: " + result.message);
@@ -324,8 +324,8 @@
                 console.error("Submission error:", error);
                 alert("An error occurred while submitting. Please try again.");
             }
-    
-            }
+
+        }
     </script>
 
 </body>

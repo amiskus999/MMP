@@ -89,5 +89,31 @@
         ],
         "posted_at": "2025-11-21 13:57:42",
         "is_active": true
+    },
+    {
+        "id": "item_69207409a7127",
+        "user_id": 123,
+        "title": "Mike's Bike",
+        "description": "Benigni Panini",
+        "price": 1000000,
+        "condition": "Used - Good",
+        "image_paths": [
+            "uploads\/69207409a5300_bike.png"
+        ],
+        "posted_at": "2025-11-21 14:15:37",
+        "is_active": true
+    },
+    {
+        "id": "item_692078beb4ee0",
+        "user_id": 123,
+        "title": "naman's bike",
+        "description": "hi",
+        "price": 300,
+        "condition": "New",
+        "image_paths": [
+            "uploads\/692078beb30ad_bike.png"
+        ],
+        "posted_at": "2025-11-21 14:35:42",
+        "is_active": true
     }
 ]
