@@ -114,6 +114,8 @@
     <div class="signup-box">
         <h3>Create an account</h3>
 
+        <div id="error-message" style="color: red; margin-bottom: 15px;"></div>
+
         <form action="signup.php" method="POST">
             <input type="text" name="username" placeholder="Username" required>
 
@@ -130,6 +132,17 @@
     </div>
 
 </div>
+
+<script>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = decodeURIComponent(error);
+        }
+    };
+</script>
 
 </body>
 </html>
