@@ -250,7 +250,54 @@
         <!-- 2. Action Area -->
         <div class="action-area">
             <!-- Search bar -->
-            <input type="text" class="search-input" placeholder="Search items...">
+
+            <input type="text" id="site-search" name="keyword" class="search-input" placeholder="Search items...">
+            
+            <script>
+                document.getElementById("site-search").addEventListener("keyup", performSearch);
+
+
+                function performSearch(e) {
+                    const keyword = e.target.value;
+                    const url = `search.php?keyword=${encodeURIComponent(keyword)}`;
+                    const xhr = new XMLHttpRequest();
+
+                    // 1. Set up the request method and URL
+                    xhr.open('GET', url, true); // true = asynchronous
+
+                    // 2. Define the callback function for state changes
+                    xhr.onreadystatechange = function () {
+                        // readyState 4 means the request is finished
+                        if (xhr.readyState === 4) {
+
+                            // status 200 means success
+                            if (xhr.status === 200) {
+                                try {
+                                    // Parse the JSON string response
+                                    const data = JSON.parse(xhr.responseText);
+                                    renderResults(data);
+                                } catch (e) {
+                                    console.error("Error parsing JSON response:", e);
+                                    renderError();
+                                }
+                            } else {
+                                console.error("Server responded with status:", xhr.status);
+                                renderError();
+                            }
+                        }
+                    };
+
+                    // 3. Define error handling for network issues
+                    xhr.onerror = function () {
+                        console.error("Network request failed.");
+                        renderError();
+                    };
+
+                    // 4. Send the request
+                    xhr.send();
+                }
+            </script>
+
         </div>
 
         <!-- 3. Product Grid (4x2 layout, responsive) -->
