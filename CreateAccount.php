@@ -54,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
 
     if (validate($error_message)) {
-        $file = fopen("UserDatabase.txt", "a");
+        $file = fopen("data/UserDatabase.txt", "a");
         if ($file) {
             // Add headers if the file is new/empty
-            if (filesize("UserDatabase.txt") == 0) {
+            if (filesize("data/UserDatabase.txt") == 0) {
                 fwrite($file, "Username\tEmail\tPassword\n");
             }
 
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             fclose($file);
 
             // Redirect to login page on success
-            header("Location: Login.html");
+            header("Location: Login.php");
             exit();
         }
     }
@@ -189,14 +189,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="CreateAccount.php" method="POST">
+            <input type="email" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
             <input type="text" id="username" name="username" placeholder="Username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="email" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
+            
             <button class="signup-btn" type="submit">Sign Up</button>
         </form>
 
         <div class="login-text">
-            Already have an account? <a href="Login.html">Login</a>
+            Already have an account? <a href="Login.php">Login</a>
         </div>
     </div>
 

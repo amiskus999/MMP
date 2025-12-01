@@ -1,6 +1,6 @@
 <?php
     function organizeData(){
-        $file = fopen("UserDatabase.txt","r");
+        $file = fopen("data/UserDatabase.txt","r");
         if($file == false){
             return null;
         }
@@ -13,7 +13,7 @@
             $headerIndex[trim($header)] = $i;
             $i++;
         }
-        $lines = file("UserDatabase.txt") ;  // Read the file into an array of lines
+        $lines = file("data/UserDatabase.txt") ;  // Read the file into an array of lines
         array_shift($lines); // Remove the header line
         $mids = [];
         $i = 0;
