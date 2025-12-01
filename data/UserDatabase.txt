@@ -1,0 +1,2 @@
+Username	Email	Password
+m260105	m260105@usna.edu	$2y$10$C/U7OVImNOe/jxtB.Qh1ueyqgNHPqDXCshf9n50B/s5iAH1hBw5Ga
