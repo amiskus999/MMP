@@ -252,7 +252,7 @@
             <!-- Search bar -->
 
             <input type="text" id="site-search" name="keyword" class="search-input" placeholder="Search items...">
-            
+
             <script>
                 document.getElementById("site-search").addEventListener("keyup", performSearch);
 
@@ -278,11 +278,11 @@
                                     renderResults(data);
                                 } catch (e) {
                                     console.error("Error parsing JSON response:", e);
-                                    renderError();
+                                    //renderError();
                                 }
                             } else {
                                 console.error("Server responded with status:", xhr.status);
-                                renderError();
+                                //renderError();
                             }
                         }
                     };
@@ -295,6 +295,36 @@
 
                     // 4. Send the request
                     xhr.send();
+                }
+
+                function renderResults(data) {
+                    resultsList.innerHTML = '';
+                    resultsContainer.classList.remove('hidden');
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        noResults.classList.remove('hidden');
+                        return;
+                    }
+
+                    noResults.classList.add('hidden');
+
+                    data.forEach((item, index) => {
+                        const li = document.createElement('li');
+                        li.className = 'result-item hover:bg-blue-50 cursor-pointer transition-colors duration-150 p-4';
+                        li.style.animationDelay = `${index * 0.03}s`;
+
+                        li.innerHTML = `
+                    <a href="#" class="block">
+                        <h3 class="text-sm font-semibold text-gray-900">${escapeHtml(item.title)}</h3>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-1">${escapeHtml(item.description)}</p>
+                    </a>
+                `;
+                        li.addEventListener('click', () => {
+                            searchInput.value = item.title;
+                            hideResults();
+                        });
+                        resultsList.appendChild(li);
+                    });
                 }
             </script>
 
