@@ -126,12 +126,18 @@
 
     $data = json_decode(file_get_contents($jsonFilePath), true);
 
+    $item = null;
     // 3. Validate listing exists
-    if (!isset($data[$id])) {
+    foreach ($data as $key => $value) {
+        if (isset($value['id']) && ($value['id'] == $id)) {
+            $item = $value;
+            break;
+        }
+    }
+    if (!isset($item)) {
         die("Item not found.");
     }
 
-    $item = $data[$id];
     ?>
     <div class="container">
 

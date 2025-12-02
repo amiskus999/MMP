@@ -370,7 +370,7 @@ if (!isset($_SESSION['user_email'])) {
                 foreach ($data as $key => $value) {
 
                     // Print each product card
-                    echo '<a href=BuyItem.php?id=' . urlencode($value['id']) . '" class=product-link">';
+                    echo '<a href="BuyItem.php?id=' . urlencode($value['id']) . '" class="product-link">';
                     echo '<div class="product-card">';
                     echo '<div class="image-placeholder">';
                     $imagePath = $value['image_paths'][0];
