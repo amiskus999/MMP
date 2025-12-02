@@ -232,14 +232,14 @@
             </p>
 
             <!-- Buttons -->
-            <a href="CreateAccount.html" class="btn btn-primary">
+            <a href="CreateAccount.php" class="btn btn-primary">
                 <span>Create Account</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
 
             <div class="divider">or</div>
 
-            <a href="Login.html" class="btn btn-secondary">
+            <a href="Login.php" class="btn btn-secondary">
                 Log In
             </a>
 
