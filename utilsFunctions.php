@@ -26,4 +26,25 @@
         return [$headerIndex,$mids];
     }
 
+    function renderItem($value){
+        $imagePath = $value['image_paths'][0];
+        $encoded = urlencode($value['id']);
+        $results = <<<HTML
+        <!-- // Print each product card -->
+        <a href="BuyItem.php?id={$encoded}" class="product-link">
+        <div class="product-card">
+        <div class="image-placeholder">
+        
+        <span>
+        <img src="{$imagePath}" alt="Img unavailable" height="160"
+        </span>
+        </div> <div class="product-details">
+        <p class="price">\${$value['price']}</p>
+        <p class="name">{$value['title']}</p>
+        </div>
+        </div>
+        </a>
+        HTML;
+        echo $results;
+    }
 ?>

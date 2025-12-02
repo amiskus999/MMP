@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include_once("utilsFunctions.php"); 
 // If the user is not logged in, redirect them to the Login page.
 if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
@@ -369,20 +369,8 @@ if (!isset($_SESSION['user_email'])) {
             
                 foreach ($data as $key => $value) {
 
-                    // Print each product card
-                    echo '<a href="BuyItem.php?id=' . urlencode($value['id']) . '" class="product-link">';
-                    echo '<div class="product-card">';
-                    echo '<div class="image-placeholder">';
-                    $imagePath = $value['image_paths'][0];
-                    echo '<span>';
-                    echo '<img src="' . $imagePath . '" alt="Img unavailable" height="160"';
-                    echo '</span>';
-                    echo '</div> <div class="product-details">';
-                    echo '<p class="price">$' . $value['price'] . '</p>';
-                    echo '<p class="name">' . $value['title'] . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</a>';
+                    // 
+                    renderItem($value);
                 }
             } else {
                 echo "JSON file not found.";
