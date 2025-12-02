@@ -89,7 +89,7 @@
         }
 
         /* Account Icons */
-        .account-icon {
+        .circle-icon {
             width: 40px;
             height: 40px;
             background-color: #e5e7eb;
@@ -99,7 +99,14 @@
             transition: background-color 5s;
         }
 
-        .account-icon:hover {
+        .home-icon {
+            background-image: url('house_icon.jpg'); 
+            background-size: cover;    /* Scales image to fill the circle */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents tiling */
+        }
+
+        .circle-icon:hover {
             background-color: #d1d5db;
         }
 
@@ -215,8 +222,8 @@
 
                 <!-- Chat/Account Icons (Placeholder Circles) -->
                 <!-- TODO: Add small images here and links to those pages -->
-                <div class="account-icon" aria-label="Messages"></div>
-                <div class="account-icon" aria-label="User Profile"></div>
+                <a href="Welcome.php"> <div class="circle-icon home-icon" aria-label="Home"></div> </a>
+                <div class="circle-icon" aria-label="User Profile"></div>
             </div>
         </header>
 
