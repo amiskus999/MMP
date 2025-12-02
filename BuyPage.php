@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_email'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Midshipman Marketplace (Pure CSS)</title>
+    <title>Midshipman Marketplace</title>
     <style>
         * {
             box-sizing: border-box;
@@ -98,7 +98,7 @@ if (!isset($_SESSION['user_email'])) {
         }
 
         /* Account Icons */
-        .account-icon {
+        .circle-icon {
             width: 40px;
             height: 40px;
             background-color: #e5e7eb;
@@ -108,7 +108,14 @@ if (!isset($_SESSION['user_email'])) {
             transition: background-color 5s;
         }
 
-        .account-icon:hover {
+        .home-icon {
+            background-image: url('house_icon.jpg'); 
+            background-size: cover;    /* Scales image to fill the circle */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents tiling */
+        }
+
+        .circle-icon:hover {
             background-color: #d1d5db;
         }
 
@@ -251,8 +258,8 @@ if (!isset($_SESSION['user_email'])) {
 
                 <!-- Chat/Account Icons (Placeholder Circles) -->
                 <!-- TODO: Add small images here and links to those pages -->
-                <div class="account-icon" aria-label="Messages"></div>
-                <div class="account-icon" aria-label="User Profile"></div>
+                <a href="Welcome.php"> <div class="circle-icon home-icon" aria-label="Home"></div> </a>
+                <div class="circle-icon" aria-label="User Profile"></div>
             </div>
         </header>
 
