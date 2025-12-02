@@ -9,6 +9,7 @@ include_once("utilsFunctions.php");
 
 $error_message = '';
 $email = '';
+$isAdmin = 'false';
 
 // Checks if the submitted password matches any existing password in the data
 function checkPasswordAndEmail($headers, $data, $email, $password){
@@ -17,29 +18,43 @@ function checkPasswordAndEmail($headers, $data, $email, $password){
         if (isset($headers["Email"]) && isset($datum[$headers["Email"]]) &&
             isset($headers["Password"]) && isset($datum[$headers["Password"]]) &&
             $email == trim($datum[$headers["Email"]]) && password_verify($password, trim($datum[$headers["Password"]]))) {
-            return true;
+            return $datum;
         }
     }
-    return false;
+    return null;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    //$isAdmin = $_POST['isAdmin'] ?? 'false'; //TODO: not sure if this line would work; where is POST made?
 
     $found = false;
     $db = organizeData();
-    if($db != null){
-        $header = $db[0];
-        $data = $db[1];
-        
-        if (checkPasswordAndEmail($header, $data, $email, $password)) {
-            $found = true;
+
+    if ($db != null) {
+    $header = $db[0];
+    $data = $db[1];
+
+    // Check login credentials
+    $datum = checkPasswordAndEmail($header, $data, $email, $password);
+
+    if ($datum !== null) {
+        $found = true;
+
+        // Only set isAdmin if the column exists
+        if (isset($header["IsAdmin"]) && isset($datum[$header["IsAdmin"]])) {
+            $isAdmin = trim($datum[$header["IsAdmin"]]);
+        } else {
+            $isAdmin = 'false'; // default
         }
     }
+}
+
 
     if ($found) {
         $_SESSION['user_email'] = $email;
+        $_SESSION['isAdmin'] = $isAdmin;
         header('Location: SellPage.php'); // Redirect to a user-specific page
         exit();
     } else {

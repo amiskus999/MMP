@@ -1,13 +1,2 @@
 Username	Email	Password
-m260105	m260105@usna.edu	$2y$10$4X9IyaM6UT/QjkM2q.R36eEhQJxujWdG0U7h36MMUtvxwIY1b7wLy
-m260105	m260105@usna.edu	$2y$10$n9O5vgS/ioCUCIIb4KaAgOnW5Jxff5ebio.LV.ovKl4rNICGf3nFO
-m260105	m260105@usna.edu	$2y$10$7k6dJDuioIwV.C/XYTa5jeSvPCNMvWclmx6Vl20gSkXeZyw1HOxuu
-m260105	m260105@usna.edu	$2y$10$oZ7uSmE3rxK/J2ZiiC9X1uIUhCaitwe80CL167Qp/oFQtsZsHsvVa
-m260105	m260105@usna.edu	$2y$10$G2nin6Mv3Zgu/cXh1CG1TO9jowyuOEOYL3esCKJrgWBvDihr6uWjS
-m260105	m260105@usna.edu	$2y$10$H63uSzMxAEe7RHWpcy6btuVbHuzWkYqcXeZ4SmsRKyrBYwyWUlCPS
-m260105	m260105@usna.edu	$2y$10$v986vaQrxHi5a/rY5YJ0JO95cOtPtTXwrsUX9dYFzaffp5Hccb3ya
-m260105	m260105@usna.edu	$2y$10$RjfcSy3hFdDBVG.PG9arn.HVMVd.vWftSLtI9eHeINcyLdEkxLtL6
-m260105	m260105@usna.edu	$2y$10$J5a2w1kKOIpHVKNbXCW5Y.HTMSTaOtfmencTuhzZ8nbESIzcgXX5u
-m260105	m260105@usna.edu	$2y$10$OAYrNd4erkojG5oIHyQ2DeQoCirArp1Mbzz16ryrCU5Fcbteo6M9.
-m260105	m260105@usna.edu	$2y$10$VFEbNwS2dpnVOstQJA6oje7U91rFqoJZcoz/H1YS20Nxf0vbwA3Ia
-m260105	m260105@usna.edu	$2y$10$E8PwHpOFOP/u82l70BCdHek.Yx0pPxYFTZGuCHNQ3UxrnIvoqbgdO
+m260105	m260105@usna.edu	$2y$10$C/U7OVImNOe/jxtB.Qh1ueyqgNHPqDXCshf9n50B/s5iAH1hBw5Ga

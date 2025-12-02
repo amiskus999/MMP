@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
     exit();
 }
+if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
+    header('Location: Login.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

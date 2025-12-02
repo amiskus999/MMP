@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_email'])) {
     header("Location: login.php");
     exit();
 }
+if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
+    header('Location: Login.php');
+    exit();
+}
 
 // --- Handle POST Actions (Delist Item or Delete User) ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
