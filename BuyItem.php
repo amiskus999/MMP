@@ -169,6 +169,8 @@
         // Example purchase function
         function buyItem() {
             alert("Purchase complete! (Demo)");
+            // TODO: should remove this item from listings.json
+            delete $data[$item];    
         }
     </script>
 
