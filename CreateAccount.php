@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="header">Midshipman Marketplace</div>
 
-    <a href="index.html" class="back">
+    <a href="index.php" class="back">
         &#8592; <span>Home</span>
     </a>
 

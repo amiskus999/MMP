@@ -1,5 +1,10 @@
 <?php
 session_start();
+// If the user is already logged in, redirect them to the BuyPage.
+if (isset($_SESSION['user_email'])) {
+    header('Location: BuyPage.php');
+    exit();
+}
 include_once("utilsFunctions.php");
 
 $error_message = '';
@@ -144,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="header">Midshipman Marketplace</div>
 
-    <a href="index.html" class="back">
+    <a href="index.php" class="back">
         &#8592; <span>Home</span>
     </a>
 
