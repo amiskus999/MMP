@@ -109,10 +109,13 @@ if (!isset($_SESSION['user_email'])) {
         }
 
         .home-icon {
-            background-image: url('house_icon.jpg'); 
-            background-size: cover;    /* Scales image to fill the circle */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat; /* Prevents tiling */
+            background-image: url('house_icon.jpg');
+            background-size: cover;
+            /* Scales image to fill the circle */
+            background-position: center;
+            /* Centers the image */
+            background-repeat: no-repeat;
+            /* Prevents tiling */
         }
 
         .circle-icon:hover {
@@ -237,6 +240,11 @@ if (!isset($_SESSION['user_email'])) {
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
             /* Subtle focus ring */
         }
+
+        .product-link {
+            text-decoration: none;
+            color: inherit;
+        }
     </style>
 </head>
 
@@ -258,7 +266,9 @@ if (!isset($_SESSION['user_email'])) {
 
                 <!-- Chat/Account Icons (Placeholder Circles) -->
                 <!-- TODO: Add small images here and links to those pages -->
-                <a href="Welcome.php"> <div class="circle-icon home-icon" aria-label="Home"></div> </a>
+                <a href="Welcome.php">
+                    <div class="circle-icon home-icon" aria-label="Home"></div>
+                </a>
                 <div class="circle-icon" aria-label="User Profile"></div>
             </div>
         </header>
@@ -360,6 +370,7 @@ if (!isset($_SESSION['user_email'])) {
                 foreach ($data as $key => $value) {
 
                     // Print each product card
+                    echo '<a href="BuyItem.php?id=' . urlencode($value['id']) . '" class="product-link">';
                     echo '<div class="product-card">';
                     echo '<div class="image-placeholder">';
                     $imagePath = $value['image_paths'][0];
@@ -371,6 +382,7 @@ if (!isset($_SESSION['user_email'])) {
                     echo '<p class="name">' . $value['title'] . '</p>';
                     echo '</div>';
                     echo '</div>';
+                    echo '</a>';
                 }
             } else {
                 echo "JSON file not found.";
