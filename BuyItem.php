@@ -127,10 +127,12 @@
     $data = json_decode(file_get_contents($jsonFilePath), true);
 
     $item = null;
+    $itemKey = null;
     // 3. Validate listing exists
     foreach ($data as $key => $value) {
         if (isset($value['id']) && ($value['id'] == $id)) {
             $item = $value;
+            $itemKey = $key;
             break;
         }
     }
@@ -161,18 +163,24 @@
         </div>
 
         <!-- Buy Button -->
-        <button class="buy-button" onclick="buyItem()">Buy Item</button>
+        <button class="buy-button" onclick="<?php buyItem($data, $itemKey, $jsonFilePath);?>">Buy Item</button>
 
     </div>
 
-    <script>
-        // Example purchase function
-        function buyItem() {
-            alert("Purchase complete! (Demo)");
-            // TODO: should remove this item from listings.json
-            delete $data[$item];    
+    <?php
+    function buyItem($data, $itemKey, $jsonFilePath)
+    {
+
+        if (isset($data[$itemKey])) {
+            unset($data[$itemKey]); // Remove the item
+            file_put_contents($jsonFilePath, json_encode($data));
+            ?>
+            <script> alert("Purchase complete! (Demo)");</script> <?php
+        } else {
+            ?> <script> alert("Item not found!"); </script><?php
         }
-    </script>
+    }
+    ?>
 
 </body>
 
