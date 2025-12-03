@@ -24,8 +24,28 @@ foreach ($data as $key => $value) {
         renderItem($value);
         $found = true;
     }
+    elseif ($keyword === '') {
+        renderItem($value);
+        $found = true;
+    }
 }
 
 if (!$found) {
-    echo "<p>No items found matching your search.</p>";
+    $safe_keyword = htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8');
+    echo <<<HTML
+    <head>
+    <!-- ... other head elements like meta, title ... -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your Custom CSS (must be after Bootstrap) -->
+    <!-- <link rel="stylesheet" href="path/to/your/style.css"> -->
+</head>
+<div class="alert alert-warning text-center" role="alert">
+  <h4 class="alert-heading">No Results Found</h4>
+  <p>Sorry, we couldn't find any items matching your search for "<strong>{$safe_keyword}</strong>".</p>
+  <p class="mb-0">Please try a different search term or browse all items.</p>
+</div>
+HTML;
 }
