@@ -9,7 +9,7 @@ $email = '';
 function checkDuplicate($headers, $data, $value) {
     foreach ($data as $datum) {
         // Check if the header key exists to avoid errors
-        if (isset($headers[$value]) && isset($datum[$headers[$value]]) && $_POST[$value] == $datum[$headers[$value]]) {
+        if (isset($headers[$value]) && isset($datum[$headers[$value]]) && trim($_POST[$value]) == trim($datum[$headers[$value]])) {
             return true;
         }
     }
@@ -24,7 +24,7 @@ function validate(&$error_message) {
     if ($db !== null) {
         $header = $db[0];
         $data = $db[1];
-        if (checkDuplicate($header, $data, "email")) {
+        if (checkDuplicate($header, $data, "Email")) {
             $error_message = "Email already in use.";
             $isValid = false;
         }

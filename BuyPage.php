@@ -266,7 +266,7 @@ if (!isset($_SESSION['user_email'])) {
 
                 <!-- Chat/Account Icons (Placeholder Circles) -->
                 <!-- TODO: Add small images here and links to those pages -->
-                <a href="Welcome.php">
+                <a href="index.php">
                     <div class="circle-icon home-icon" aria-label="Home"></div>
                 </a>
                 <div class="circle-icon" aria-label="User Profile"></div>
