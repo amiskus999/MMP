@@ -1,3 +1,37 @@
+<?php
+    // --- Handle Form Submission for Buying Item ---
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_item_id'])) {
+        $itemIdToBuy = $_POST['buy_item_id'];
+        $jsonFilePath = "data/listings.json";
+
+        if (file_exists($jsonFilePath)) {
+            $data = json_decode(file_get_contents($jsonFilePath), true);
+            $itemKey = null;
+
+            // Find the key of the item to remove
+            foreach ($data as $key => $value) {
+                if (isset($value['id']) && $value['id'] == $itemIdToBuy) {
+                    $itemKey = $key;
+                    break;
+                }
+            }
+
+            if ($itemKey !== null) {
+                unset($data[$itemKey]); // Remove the item from the array
+                // Re-index the array to avoid JSON turning it into an object if keys are not sequential
+                $data = array_values($data); 
+                file_put_contents($jsonFilePath, json_encode($data, JSON_PRETTY_PRINT));
+                
+                // Use JavaScript to show an alert and redirect
+                echo "<script>
+                        alert('Purchase complete! (Demo)');
+                        window.location.href = 'BuyPage.php';
+                      </script>";
+                exit(); // Stop further script execution
+            }
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -163,24 +197,12 @@
         </div>
 
         <!-- Buy Button -->
-        <button class="buy-button" onclick="<?php buyItem($data, $itemKey, $jsonFilePath);?>">Buy Item</button>
+        <form method="POST" action="BuyItem.php?id=<?php echo urlencode($id); ?>">
+            <input type="hidden" name="buy_item_id" value="<?php echo htmlspecialchars($id); ?>">
+            <button type="submit" class="buy-button">Buy Item</button>
+        </form>
 
     </div>
-
-    <?php
-    function buyItem($data, $itemKey, $jsonFilePath)
-    {
-
-        if (isset($data[$itemKey])) {
-            unset($data[$itemKey]); // Remove the item
-            file_put_contents($jsonFilePath, json_encode($data));
-            ?>
-            <script> alert("Purchase complete! (Demo)");</script> <?php
-        } else {
-            ?> <script> alert("Item not found!"); </script><?php
-        }
-    }
-    ?>
 
 </body>
 

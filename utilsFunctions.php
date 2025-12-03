@@ -29,15 +29,13 @@
     function renderItem($value){
         $imagePath = $value['image_paths'][0];
         $encoded = urlencode($value['id']);
+        $altText = htmlspecialchars($value['title']); // Escape title for alt attribute
         $results = <<<HTML
         <!-- // Print each product card -->
         <a href="BuyItem.php?id={$encoded}" class="product-link">
         <div class="product-card">
         <div class="image-placeholder">
-        
-        <span>
-        <img src="{$imagePath}" alt="Img unavailable" height="160"
-        </span>
+        <img src="{$imagePath}" alt="{$altText}" style="height: 160px; width: 100%; object-fit: cover;">
         </div> <div class="product-details">
         <p class="price">\${$value['price']}</p>
         <p class="name">{$value['title']}</p>

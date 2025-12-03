@@ -277,87 +277,46 @@ if (!isset($_SESSION['user_email'])) {
         <div class="action-area">
             <!-- Search bar -->
 
-            <input type="text" id="site-search" name="keyword" class="search-input" placeholder="Search items...">
+            <input type="text" id="site-search" name="keyword" onkeyup="performSearch(this)" class="search-input" placeholder="Search items...">
 
             <script>
-                document.getElementById("site-search").addEventListener("keyup", performSearch);
-
-
+                //document.getElementById("site-search").addEventListener("keyup", performSearch);
+                //const productGrid = document.querySelector('.product-grid');
+                //const element = document.getElementById("searchResult");
                 function performSearch(e) {
-                    const keyword = e.target.value;
+                    const element = document.getElementById("searchResult");
+                    const keyword = e.value;
                     const url = `search.php?keyword=${encodeURIComponent(keyword)}`;
                     const xhr = new XMLHttpRequest();
 
-                    // 1. Set up the request method and URL
-                    xhr.open('GET', url, true); // true = asynchronous
+                    
 
-                    // 2. Define the callback function for state changes
-                    xhr.onreadystatechange = function () {
-                        // readyState 4 means the request is finished
-                        if (xhr.readyState === 4) {
-
-                            // status 200 means success
-                            if (xhr.status === 200) {
-                                try {
-                                    // Parse the JSON string response
-                                    const data = JSON.parse(xhr.responseText);
-                                    renderResults(data);
-                                } catch (e) {
-                                    console.error("Error parsing JSON response:", e);
-                                    //renderError();
-                                }
-                            } else {
-                                console.error("Server responded with status:", xhr.status);
-                                //renderError();
-                            }
-                        }
+                    xhr.onload = function () {
+                        // if (xhr.readyState === 4) {
+                        //     if (xhr.status === 200) {
+                        //         // The response is HTML, so we can inject it directly
+                        //         productGrid.innerHTML = xhr.responseText;
+                        //     } else {
+                        //         console.error("Server responded with status:", xhr.status);
+                        //         productGrid.innerHTML = '<p style="color: red;">Error loading search results.</p>';
+                        //     }
+                        // }
+                        element.innerHTML = xhr.responseText;
                     };
 
-                    // 3. Define error handling for network issues
-                    xhr.onerror = function () {
-                        console.error("Network request failed.");
-                        renderError();
-                    };
-
-                    // 4. Send the request
+                    // xhr.onerror = function () {
+                    //     console.error("Network request failed.");
+                    //     productGrid.innerHTML = '<p style="color: red;">Network request failed.</p>';
+                    // };
+                    xhr.open('GET', url, true);
                     xhr.send();
-                }
-
-                function renderResults(data) {
-                    resultsList.innerHTML = '';
-                    resultsContainer.classList.remove('hidden');
-
-                    if (!Array.isArray(data) || data.length === 0) {
-                        noResults.classList.remove('hidden');
-                        return;
-                    }
-
-                    noResults.classList.add('hidden');
-
-                    data.forEach((item, index) => {
-                        const li = document.createElement('li');
-                        li.className = 'result-item hover:bg-blue-50 cursor-pointer transition-colors duration-150 p-4';
-                        li.style.animationDelay = `${index * 0.03}s`;
-
-                        li.innerHTML = `
-                    <a href="#" class="block">
-                        <h3 class="text-sm font-semibold text-gray-900">${escapeHtml(item.title)}</h3>
-                        <p class="text-xs text-gray-500 mt-1 line-clamp-1">${escapeHtml(item.description)}</p>
-                    </a>
-                `;
-                        li.addEventListener('click', () => {
-                            searchInput.value = item.title;
-                            hideResults();
-                        });
-                        resultsList.appendChild(li);
-                    });
                 }
             </script>
 
         </div>
 
         <!-- 3. Product Grid (4x2 layout, responsive) -->
-        <main class="product-grid">
+        <div class="product-grid" id="searchResult">
 
             <!-- Read in the listings.json file -->
             <?php
@@ -376,7 +335,7 @@ if (!isset($_SESSION['user_email'])) {
                 echo "JSON file not found.";
             }
             ?>
-        </main>
+        </div>
     </div>
 </body>
 
