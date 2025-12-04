@@ -189,7 +189,7 @@
         <!-- Info Section -->
         <div class="info-section">
             <div class="item-title" id="itemTitle"><?php echo htmlspecialchars($item['title']); ?></div>
-            <div class="item-price" id="itemPrice"><?php echo htmlspecialchars($item['price']); ?></div>
+            <div class="item-price" id="itemPrice">$<?php echo htmlspecialchars($item['price']); ?></div>
             <div class="item-condition" id="itemCondition"><?php echo htmlspecialchars($item['condition']); ?></div>
             <div class="item-description" id="itemDescription">
                 <?php echo htmlspecialchars($item['description']); ?>
