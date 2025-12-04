@@ -9,9 +9,10 @@ include_once("utilsFunctions.php");
 
 $error_message = '';
 $email = '';
+$isAdmin = 'false';
 
 // Checks if the submitted password matches any existing password in the data
-function checkPasswordAndEmail($headers, $data, $email, $password){
+function checkPasswordAndEmail($headers, $data, $email, $password, $isAdmin){
     foreach($data as $datum){
         // Check if header for Email and Password exists and if the data matches
         if (isset($headers["Email"]) && isset($datum[$headers["Email"]]) &&
@@ -26,20 +27,23 @@ function checkPasswordAndEmail($headers, $data, $email, $password){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    //$isAdmin = $_POST['isAdmin'] ?? 'false'; //TODO: not sure if this line would work; where is POST made?
 
     $found = false;
     $db = organizeData();
+    $isAdmin == trim($db[$headers["IsAdmin"]]);
     if($db != null){
         $header = $db[0];
         $data = $db[1];
         
-        if (checkPasswordAndEmail($header, $data, $email, $password)) {
+        if (checkPasswordAndEmail($header, $data, $email, $password, $isAdmin)) {
             $found = true;
         }
     }
 
     if ($found) {
         $_SESSION['user_email'] = $email;
+        $_SESSION['isAdmin'] = $isAdmin;
         header('Location: SellPage.php'); // Redirect to a user-specific page
         exit();
     } else {

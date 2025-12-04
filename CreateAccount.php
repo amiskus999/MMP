@@ -5,6 +5,7 @@ include_once("utilsFunctions.php"); // Assuming this file exists and contains or
 $error_message = '';
 $username = '';
 $email = '';
+$isAdmin = 'false';
 
 function checkDuplicate($headers, $data, $value) {
     foreach ($data as $datum) {
@@ -52,17 +53,24 @@ function validate(&$error_message) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $email = $_POST['email'] ?? '';
+    $isAdmin = $_POST['isAdmin'] ?? 'false'; //TODO: not sure if this is necessary
 
     if (validate($error_message)) {
         $file = fopen("data/UserDatabase.txt", "a");
         if ($file) {
             // Add headers if the file is new/empty
             if (filesize("data/UserDatabase.txt") == 0) {
-                fwrite($file, "Username\tEmail\tPassword\n");
+                fwrite($file, "Username\tEmail\tPassword\tIsAdmin\n");
+                // ADMIN USER CREDENTIALS:
+                // Username: admin
+                // Email: admin@admin.org
+                // Password: AdminAdmin12
+                fwrite($file, "admin" . "\t" . "admin@admin.org" . "\t" .	"$2y$10\$BI9lHJEUij57oiwBGop58uXSZNInPp.dg2PRDO.iDaGexk3j1olw." . "\t" . "true" . "\n");
             }
-
+            $isAdmin = "false";
             $hashedPwd = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            $usr = $_POST["username"] . "\t" . $_POST["email"] . "\t" . $hashedPwd . "\n";
+            $usr = $_POST["username"] . "\t" . $_POST["email"] . "\t" . $hashedPwd . "\t" . $isAdmin .
+            "\n";
             fwrite($file, $usr);
             fclose($file);
 
@@ -192,7 +200,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
             <input type="text" id="username" name="username" placeholder="Username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
             <input type="password" name="password" placeholder="Password" required>
-            
+            <!-- TODO: Not sure if this works -->
+            <input type="hidden" id="isAdmin" value="<?php echo htmlspecialchars($isAdmin ?? 'false'); ?>">
             <button class="signup-btn" type="submit">Sign Up</button>
         </form>
 
