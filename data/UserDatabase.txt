@@ -1,2 +1,3 @@
-Username	Email	Password
-m260105	m260105@usna.edu	$2y$10$C/U7OVImNOe/jxtB.Qh1ueyqgNHPqDXCshf9n50B/s5iAH1hBw5Ga
+Username	Email	Password	IsAdmin
+admin	admin@admin.org	$2y$10$PVm5PlAsjKsMPA4q7DSBzuLEqZWlbvIhd5/TlScKvuNtnuIOdex1K	true
+Jim Katz	Jim@Katz	$2y$10$4E6DITNvFpxxiRZNWR/vy..D74pR1jhz4fqq0AaBHO6Z5oriCp4JC	false
