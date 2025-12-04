@@ -12,16 +12,16 @@ $email = '';
 $isAdmin = 'false';
 
 // Checks if the submitted password matches any existing password in the data
-function checkPasswordAndEmail($headers, $data, $email, $password, $isAdmin){
+function checkPasswordAndEmail($headers, $data, $email, $password){
     foreach($data as $datum){
         // Check if header for Email and Password exists and if the data matches
         if (isset($headers["Email"]) && isset($datum[$headers["Email"]]) &&
             isset($headers["Password"]) && isset($datum[$headers["Password"]]) &&
             $email == trim($datum[$headers["Email"]]) && password_verify($password, trim($datum[$headers["Password"]]))) {
-            return true;
+            return $datum;
         }
     }
-    return false;
+    return null;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -31,15 +31,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $found = false;
     $db = organizeData();
-    $isAdmin == trim($db[$headers["IsAdmin"]]);
-    if($db != null){
-        $header = $db[0];
-        $data = $db[1];
-        
-        if (checkPasswordAndEmail($header, $data, $email, $password, $isAdmin)) {
-            $found = true;
+
+    if ($db != null) {
+    $header = $db[0];
+    $data = $db[1];
+
+    // Check login credentials
+    $datum = checkPasswordAndEmail($header, $data, $email, $password);
+
+    if ($datum !== null) {
+        $found = true;
+
+        // Only set isAdmin if the column exists
+        if (isset($header["IsAdmin"]) && isset($datum[$header["IsAdmin"]])) {
+            $isAdmin = trim($datum[$header["IsAdmin"]]);
+        } else {
+            $isAdmin = 'false'; // default
         }
     }
+}
+
 
     if ($found) {
         $_SESSION['user_email'] = $email;

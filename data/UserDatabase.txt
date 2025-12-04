@@ -1,3 +1,3 @@
 Username	Email	Password	IsAdmin
-admin	admin@admin.org	$2y$10$BI9lHJEUij57oiwBGop58uXSZNInPp.dg2PRDO.iDaGexk3j1olw.	true
-Jimmy Neutron	boom@jimneutron.org	$2y$10$EuLxXg0Zz4nlW/bd/s1G2e7JwI70gQi53DsMdsmmYgiamvysoObXe	false
+admin	admin@admin.org	$2y$10$PVm5PlAsjKsMPA4q7DSBzuLEqZWlbvIhd5/TlScKvuNtnuIOdex1K	true
+Jim Katz	Jim@Katz	$2y$10$4E6DITNvFpxxiRZNWR/vy..D74pR1jhz4fqq0AaBHO6Z5oriCp4JC	false

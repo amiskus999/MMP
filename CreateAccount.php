@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Username: admin
                 // Email: admin@admin.org
                 // Password: AdminAdmin12
-                fwrite($file, "admin" . "\t" . "admin@admin.org" . "\t" .	"$2y$10\$BI9lHJEUij57oiwBGop58uXSZNInPp.dg2PRDO.iDaGexk3j1olw." . "\t" . "true" . "\n");
+                fwrite($file, "admin" . "\t" . "admin@admin.org" . "\t" .	"$2y$10\$PVm5PlAsjKsMPA4q7DSBzuLEqZWlbvIhd5/TlScKvuNtnuIOdex1K" . "\t" . "true" . "\n");
             }
             $isAdmin = "false";
             $hashedPwd = password_hash($_POST["password"], PASSWORD_DEFAULT);
