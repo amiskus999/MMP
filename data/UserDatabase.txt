@@ -1,3 +1,6 @@
 Username	Email	Password	IsAdmin
 admin	admin@admin.org	$2y$10$PVm5PlAsjKsMPA4q7DSBzuLEqZWlbvIhd5/TlScKvuNtnuIOdex1K	true
-Jim Katz	Jim@Katz	$2y$10$4E6DITNvFpxxiRZNWR/vy..D74pR1jhz4fqq0AaBHO6Z5oriCp4JC	false
+Jim Katz	Jim@Katz	$2y$10$4E6DITNvFpxxiRZNWR/vy..D74pR1jhz4fqq0AaBHO6Z5oriCp4JC	falsem26	m26@usna.edu	$2y$10$yoZ0qpvHif8VjqkLVmUvoetuEz3kpPb7R6dXAwaK.QHaSAMfNOtK6	false
+m260	m260@usna.edu	$2y$10$mimmmClrEBledV4fOwFuY.4MBYjXZwAWJftBJCguR7lbB5fjrJM8G	false
+m2601	m2601@usna.edu	$2y$10$V1NMAQZn0xzgxtc3KRHq2uDYIiqhNJ1c74CIvUFbtFYeXWSkU2BRK	false
+m260	m260@usna.edu	$2y$10$cJj7u4P7LPQHR7LeCpv/A.XS.sbw4X0iw/XDn/UUHfqSAy5eKGxc6	false

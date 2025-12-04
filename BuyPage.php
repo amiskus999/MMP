@@ -280,9 +280,6 @@ if (!isset($_SESSION['user_email'])) {
             <input type="text" id="site-search" name="keyword" onkeyup="performSearch(this)" class="search-input" placeholder="Search items...">
 
             <script>
-                //document.getElementById("site-search").addEventListener("keyup", performSearch);
-                //const productGrid = document.querySelector('.product-grid');
-                //const element = document.getElementById("searchResult");
                 function performSearch(e) {
                     const element = document.getElementById("searchResult");
                     const keyword = e.value;
@@ -292,22 +289,9 @@ if (!isset($_SESSION['user_email'])) {
                     
 
                     xhr.onload = function () {
-                        // if (xhr.readyState === 4) {
-                        //     if (xhr.status === 200) {
-                        //         // The response is HTML, so we can inject it directly
-                        //         productGrid.innerHTML = xhr.responseText;
-                        //     } else {
-                        //         console.error("Server responded with status:", xhr.status);
-                        //         productGrid.innerHTML = '<p style="color: red;">Error loading search results.</p>';
-                        //     }
-                        // }
                         element.innerHTML = xhr.responseText;
                     };
 
-                    // xhr.onerror = function () {
-                    //     console.error("Network request failed.");
-                    //     productGrid.innerHTML = '<p style="color: red;">Network request failed.</p>';
-                    // };
                     xhr.open('GET', url, true);
                     xhr.send();
                 }

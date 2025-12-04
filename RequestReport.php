@@ -1,8 +1,11 @@
 <?php
 session_start();
 
-// A real application would have a proper admin check.
-// For now, we'll just check if the user is logged in.
+// We just check if the user is logged in.
+/*
+We check if Admin's flag is set in the post session. If is set, we allow access to the report page.
+This program employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS part.
+*/
 if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
     exit();
