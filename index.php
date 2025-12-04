@@ -251,6 +251,9 @@ session_start(); // Must be the very first thing on the page
                 
                 <a href="BuyPage.php" class="btn btn-secondary">Buy Items</a>
                 <a href="SellPage.php" class="btn btn-secondary">Sell Items</a>
+                <?php if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'true'): ?>
+                    <a href="RequestReport.php" class="btn btn-secondary">Request Report</a>
+                <?php endif; ?>
                 <a href="Logout.php" class="btn btn-secondary">Log Out</a>
 
             <?php else: ?>
