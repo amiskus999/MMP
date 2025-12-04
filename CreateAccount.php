@@ -2,21 +2,21 @@
 session_start();
 include_once("utilsFunctions.php"); // Assuming this file exists and contains organizeData()
 
+$duplicate_email_error = '';
+$duplicate_username_error = '';
 $error_message = '';
 $username = '';
 $email = '';
 
-function checkDuplicate($headers, $data, $value) {
-    foreach ($data as $datum) {
-        // Check if the header key exists to avoid errors
-        if (isset($headers[$value]) && isset($datum[$headers[$value]]) && trim($_POST[$value]) == trim($datum[$headers[$value]])) {
-            return true;
+function checkDuplicate($headers, $data, $key) {
+    foreach($data as $datum){
+            if ($_POST[$key] == $datum[$headers[$key]]) {
+                return true;
+            }
         }
-    }
     return false;
 }
-
-function validate(&$error_message) {
+function validate(&$error_message, &$duplicate_email_error, &$duplicate_username_error) {
     $password = $_POST["password"];
     $isValid = true;
 
@@ -24,27 +24,32 @@ function validate(&$error_message) {
     if ($db !== null) {
         $header = $db[0];
         $data = $db[1];
+        // Check for duplicates independently
         if (checkDuplicate($header, $data, "Email")) {
-            $error_message = "Email already in use.";
+            $duplicate_email_error = "Email already in use.";
+            $isValid = false;
+        }
+        if (checkDuplicate($header, $data, "Username")) {
+            $duplicate_username_error = "Username already in use.";
             $isValid = false;
         }
     }
 
-    if (strlen($password) < 8) {
-        $error_message = "Password must be at least 8 characters long.";
-        $isValid = false;
-    }
-    if (preg_match('/[a-z]/', $password) == 0) {
-        $error_message = "Password must contain at least one lowercase letter.";
-        $isValid = false;
-    }
-    if (preg_match('/[A-Z]/', $password) == 0) {
-        $error_message = "Password must contain at least one uppercase letter.";
-        $isValid = false;
-    }
-    if (preg_match('/[0-9]/', $password) == 0) {
-        $error_message = "Password must contain at least one number.";
-        $isValid = false;
+    // Only proceed to password validation if no duplicate errors were found
+    if ($isValid) {
+        if (strlen($password) < 8) {
+            $error_message = "Password must be at least 8 characters long.";
+            $isValid = false;
+        } else if (preg_match('/[a-z]/', $password) == 0) {
+            $error_message = "Password must contain at least one lowercase letter.";
+            $isValid = false;
+        } else if (preg_match('/[A-Z]/', $password) == 0) {
+            $error_message = "Password must contain at least one uppercase letter.";
+            $isValid = false;
+        } else if (preg_match('/[0-9]/', $password) == 0) {
+            $error_message = "Password must contain at least one number.";
+            $isValid = false;
+        }
     }
     return $isValid;
 }
@@ -53,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $email = $_POST['email'] ?? '';
 
-    if (validate($error_message)) {
+    if (validate($error_message, $duplicate_email_error, $duplicate_username_error)) {
         $file = fopen("data/UserDatabase.txt", "a");
         if ($file) {
             // Add headers if the file is new/empty
@@ -184,12 +189,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="signup-box">
         <h3>Create an account</h3>
 
+        <!-- <?php //if (!empty($duplicate_error)): ?>
+            <div id="duplicate-error-message" style="color: red; margin-bottom: 15px;"><?php// echo $duplicate_error; // Using echo without htmlspecialchars to render the <br> tag ?></div>
+        <?php //endif; ?> -->
         <?php if (!empty($error_message)): ?>
             <div id="error-message" style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
 
         <form action="CreateAccount.php" method="POST">
+            <span style = "color: red;"> <?php echo htmlspecialchars($duplicate_email_error ?? ''); ?></span>
             <input type="email" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
+            <span style = "color: red;"> <?php echo htmlspecialchars($duplicate_username_error ?? ''); ?></span>
             <input type="text" id="username" name="username" placeholder="Username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
             <input type="password" name="password" placeholder="Password" required>
             
