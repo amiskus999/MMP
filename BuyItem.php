@@ -1,4 +1,20 @@
 <?php
+/*
+ * File: BuyItem.php
+ * Description: This file handles the display of a specific item's details based on a URL ID.
+ * It also processes the "purchase" action by removing the specific item 
+ * from the data/listings.json file to simulate a sale.
+ */
+
+    /**
+     * Functional Block: Purchase Processor
+     * Description: Handles the POST request when a user clicks "Buy Item".
+     * 1. Reads the JSON database.
+     * 2. Locates the item by ID.
+     * 3. Removes the item from the array (simulating a purchase).
+     * 4. Re-indexes the array to maintain JSON array structure.
+     * 5. Saves data and redirects the user.
+     */
     // --- Handle Form Submission for Buying Item ---
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_item_id'])) {
         $itemIdToBuy = $_POST['buy_item_id'];
@@ -144,6 +160,13 @@
 
 <body>
     <?php
+    /**
+     * Functional Block: Item Retrieval Logic
+     * Description: Validates the 'id' from the URL, reads the listings.json file,
+     * and populates the $item variable. Kills the script if the 
+     * ID is missing or the item is not found.
+     */
+    
     // 1. Get ID from URL
     if (!isset($_GET['id'])) {
         die("No item ID provided.");
@@ -181,12 +204,10 @@
 
         <div class="divider"></div>
 
-        <!-- Item Image -->
         <div class="item-image" id="itemImageBox">
             <img id="itemImage" src="<?php echo $item['image_paths'][0]; ?>" alt="Item Image">
         </div>
 
-        <!-- Info Section -->
         <div class="info-section">
             <div class="item-title" id="itemTitle"><?php echo htmlspecialchars($item['title']); ?></div>
             <div class="item-price" id="itemPrice">$<?php echo htmlspecialchars($item['price']); ?></div>
@@ -196,7 +217,6 @@
             </div>
         </div>
 
-        <!-- Buy Button -->
         <form method="POST" action="BuyItem.php?id=<?php echo urlencode($id); ?>">
             <input type="hidden" name="buy_item_id" value="<?php echo htmlspecialchars($id); ?>">
             <button type="submit" class="buy-button">Buy Item</button>

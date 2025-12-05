@@ -1,10 +1,18 @@
+<!-- 
+File: CreateListing.html
+Description: Page for creating a new marketplace listing, including image uploads,
+             item details, and condition selection. Sends listing data to submitListing.php.
+**/
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Midshipman Marketplace</title>
+
     <style>
+        /* Basic page layout */
         body {
             font-family: Arial, sans-serif;
             background: #f7f7f7;
@@ -12,6 +20,7 @@
             padding: 40px;
         }
 
+        /* Main centered card */
         .container {
             width: 600px;
             margin: auto;
@@ -32,7 +41,7 @@
             margin-top: 20px;
         }
 
-        /* Upload box */
+        /* Grid that holds uploaded images + add button */
         .upload-grid {
             display: flex;
             flex-wrap: wrap;
@@ -40,7 +49,7 @@
             max-width: 520px;
         }
 
-        /* Preview image container */
+        /* Individual preview image box */
         .image-item {
             width: 120px;
             height: 120px;
@@ -56,6 +65,7 @@
             object-fit: cover;
         }
 
+        /* X button for removing uploaded images */
         .remove-btn {
             position: absolute;
             top: 4px;
@@ -70,7 +80,7 @@
             font-size: 14px;
         }
 
-        /* Add button (ALWAYS LAST) */
+        /* The “Add Photos” square (always last in the grid) */
         .upload-box {
             width: 120px;
             height: 120px;
@@ -88,6 +98,7 @@
             background: #f0f0f0;
         }
 
+        /* Input fields */
         input[type="text"],
         input[type="number"],
         textarea {
@@ -99,7 +110,7 @@
             border-radius: 8px;
         }
 
-        /* Condition buttons */
+        /* Condition selection buttons */
         .conditions {
             display: flex;
             gap: 10px;
@@ -114,12 +125,13 @@
             cursor: pointer;
         }
 
+        /* Highlight selected condition */
         .condition-btn.active {
             background: #007bff;
             color: white;
         }
 
-        /* Buttons */
+        /* Bottom action buttons */
         .action-buttons {
             margin-top: 25px;
             display: flex;
@@ -153,9 +165,10 @@
 
         <div class="section-title">Listing Details</div>
 
+        <!-- Image upload section -->
         <div class="upload-grid" id="imageGrid">
 
-            <!-- This must remain LAST -->
+            <!-- Add button (must remain last in DOM order) -->
             <label class="upload-box" id="addButton">
                 <input type="file" id="fileInput" accept="image/*" multiple hidden>
                 <span style="font-size: 18px;">Add Photos</span>
@@ -164,14 +177,16 @@
         </div>
 
         <script>
+            // Input elements
             const input = document.getElementById("fileInput");
             const grid = document.getElementById("imageGrid");
             const addBtn = document.getElementById("addButton");
 
-            let images = []; // track count
+            // Track uploaded images
+            let images = [];
 
+            // When user selects images
             input.addEventListener("change", () => {
-                // Prevent exceeding 8 images
                 if (images.length >= 8) {
                     alert("Max 8 images allowed.");
                     input.value = "";
@@ -187,53 +202,57 @@
                     }
 
                     const reader = new FileReader();
+
+                    // When file is read, create preview image
                     reader.onload = event => {
                         const url = event.target.result;
 
+                        // Preview image element
                         const div = document.createElement("div");
                         div.className = "image-item";
 
-                        div.fileObject = file;  // attach the file to the div element, so we can retrieve it later for submission.
+                        // Store file object so it can be sent later
+                        div.fileObject = file;
 
                         div.innerHTML = `
-                <img src="${url}">
-                <button class="remove-btn">&times;</button>
-            `;
+                            <img src="${url}">
+                            <button class="remove-btn">&times;</button>
+                        `;
 
-                        // Insert BEFORE the add button so add button stays last
+                        // Insert preview before add button
                         grid.insertBefore(div, addBtn);
 
-                        // Track count
                         images.push(div);
 
-                        // Delete functionality
+                        // Remove image when clicking X button
                         div.querySelector(".remove-btn").onclick = () => {
                             div.remove();
                             images = images.filter(item => item !== div);
-
-                            // Re-enable add button if under limit
                             if (images.length < 8) addBtn.style.display = "flex";
                         };
                     };
+
                     reader.readAsDataURL(file);
                 }
 
-                // Hide add button when 8 images reached
+                // Hide add button at 8 images
                 if (images.length >= 8) {
                     addBtn.style.display = "none";
                 }
 
-                input.value = ""; // allow uploading same file again
+                // Reset input so same file can be chosen again
+                input.value = "";
             });
         </script>
 
-        <!-- Title -->
+        <!-- Item title -->
         <input type="text" id="title" placeholder="Title">
 
-        <!-- Price -->
+        <!-- Price (manually places $ with CSS trick) -->
         <input type="number" id="price" placeholder="  Price" style="padding-left:1.5em">
         <span style="margin-left:-39em">$</span>
 
+        <!-- Condition selection -->
         <div class="section-title">Condition</div>
 
         <div class="conditions">
@@ -246,18 +265,15 @@
         <!-- Description -->
         <textarea id="description" rows="4" placeholder="Description"></textarea>
 
-        <!-- TODO: check if this is suppposted to be a POST form or not -->
-        <!-- <form action="submitListing.php" method="post"> -->
+        <!-- Action buttons -->
         <div class="action-buttons">
             <a href="SellPage.php"><button class="cancel-btn">Cancel</button></a>
             <button class="publish-btn" onclick="submitListing()"> Publish</button>
         </div>
-        <!-- </form> -->
     </div>
 
-
     <script>
-        // Condition button highlighting
+        // Highlight selected condition
         const buttons = document.querySelectorAll(".condition-btn");
         let selectedCondition = "";
 
@@ -269,55 +285,48 @@
             });
         });
 
-        // Submit handler
+        // Send listing to server
         async function submitListing() {
             const title = document.getElementById("title").value;
             const price = document.getElementById("price").value;
             const description = document.getElementById("description").value;
 
-            // --- 1. Validation ---
+            // Check required fields
             if (!title || !price || !selectedCondition || !description) {
                 alert("Please fill out all fields.");
                 return;
             }
+
             if (images.length === 0) {
                 alert("Please add at least one image.");
                 return;
             }
 
-            // --- 2. Build FormData ---
-            // FormData is the modern way to send files and text via fetch
+            // Build FormData (supports file uploads)
             const formData = new FormData();
 
-            // Add all the text data
             formData.append('title', title);
             formData.append('price', price);
             formData.append('condition', selectedCondition);
             formData.append('description', description);
 
-            // Add all the image files
-            // We loop through our 'images' (divs) array and get the fileObject from each
+            // Add each uploaded file
             for (const div of images) {
-                // 'images[]' tells PHP to create an array of files
                 formData.append('images[]', div.fileObject, div.fileObject.name);
             }
 
-            // --- 3. Send to Server ---
             try {
                 const response = await fetch("submitListing.php", {
                     method: "POST",
-                    body: formData // No headers needed; browser sets multipart/form-data
+                    body: formData
                 });
 
-                // Get the JSON response from PHP
                 const result = await response.json();
 
                 if (result.success) {
                     alert("Success! Your item has been posted.");
-                    // Redirect to the market page
                     window.location.href = "SellPage.php";
                 } else {
-                    // Show a specific error from the server
                     alert("Error: " + result.message);
                 }
 
@@ -325,7 +334,6 @@
                 console.error("Submission error:", error);
                 alert("An error occurred while submitting. Please try again.");
             }
-
         }
     </script>
 

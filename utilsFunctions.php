@@ -1,7 +1,9 @@
 <?php
     /**
-     * These utility functions are used across multiple files to handle user data and what items to render on the BuyPage
-     * when a user is performing a search to see what items match the name they are searching for.
+     * File: utilFunctions.php
+     * Description: These utility functions are used across multiple files to handle user
+     * data and what items to render on the BuyPage when a user is performing a search to 
+     * see what items match the name they are searching for.
      */
     function organizeData(){
         $file = fopen("data/UserDatabase.txt","r");

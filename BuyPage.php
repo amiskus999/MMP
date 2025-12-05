@@ -1,11 +1,20 @@
 <?php
+/*
+ * File: BuyPage.php
+ * Description: The main marketplace dashboard. It displays a grid of items available for purchase.
+ * It features session protection, a responsive grid layout, and an AJAX-powered 
+ * search bar to filter items without reloading the page.
+ */
+
 session_start();
 include_once("utilsFunctions.php"); 
+
 // If the user is not logged in, redirect them to the Login page.
 if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,14 +156,16 @@ if (!isset($_SESSION['user_email'])) {
             /* Blue 700 */
         }
 
-        /* Plus Icon inside button */
         .plus-icon {
             width: 20px;
             height: 20px;
             fill: currentColor;
         }
 
-        /* 3. Product Grid (CSS Grid) */
+        /** Description: Defines a CSS Grid layout with 4 repeating columns. 
+         * This handles the card alignment for the inventory.
+         */
+        
         .product-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -214,6 +225,8 @@ if (!isset($_SESSION['user_email'])) {
             text-overflow: ellipsis;
         }
 
+        /** Description: Defines the search bar style
+         */
         .search-input {
             width: 320px;
             padding: 10px 16px;
@@ -250,22 +263,17 @@ if (!isset($_SESSION['user_email'])) {
 
 <body class="min-h-screen">
 
-    <!-- Main Marketplace Container -->
     <div class="marketplace-container">
 
-        <!-- 1. Top Header & Navigation -->
         <header class="header">
             <h1>Midshipman Marketplace</h1>
 
             <div class="nav-controls">
-                <!-- Sell/Buy Tabs -->
                 <div class="tabs">
                     <a href="SellPage.php"><button class="tab-button">Sell</button></a>
                     <a href="#"> <button class="tab-button active">Buy</button></a>
                 </div>
 
-                <!-- Chat/Account Icons (Placeholder Circles) -->
-                <!-- TODO: Add small images here and links to those pages -->
                 <a href="index.php">
                     <div class="circle-icon home-icon" aria-label="Home"></div>
                 </a>
@@ -273,20 +281,21 @@ if (!isset($_SESSION['user_email'])) {
             </div>
         </header>
 
-        <!-- 2. Action Area -->
         <div class="action-area">
-            <!-- Search bar -->
-
             <input type="text" id="site-search" name="keyword" onkeyup="performSearch(this)" class="search-input" placeholder="Search items...">
 
             <script>
+                /**
+                 * Functional Block: AJAX Search
+                 * Description: Triggered via 'onkeyup' in the input field. 
+                 * It sends an asynchronous request to 'search.php' and updates 
+                 * the 'searchResult' DOM element with the returned HTML.
+                 */
                 function performSearch(e) {
                     const element = document.getElementById("searchResult");
                     const keyword = e.value;
                     const url = `search.php?keyword=${encodeURIComponent(keyword)}`;
                     const xhr = new XMLHttpRequest();
-
-                    
 
                     xhr.onload = function () {
                         element.innerHTML = xhr.responseText;
@@ -299,11 +308,15 @@ if (!isset($_SESSION['user_email'])) {
 
         </div>
 
-        <!-- 3. Product Grid (4x2 layout, responsive) -->
         <div class="product-grid" id="searchResult">
 
-            <!-- Read in the listings.json file -->
             <?php
+            /**
+             * Functional Block: Initial Data Loading
+             * Description: Loads the 'listings.json' file, decodes it into an associative array,
+             * and iterates through every item. For each item, it calls 'renderItem', 
+             * which is defined in 'utilsFunctions.php', to generate the HTML card.
+             */
             $jsonFilePath = 'data/listings.json'; // Path to all selling items
             
             if (file_exists($jsonFilePath)) {
@@ -311,8 +324,7 @@ if (!isset($_SESSION['user_email'])) {
                 $data = json_decode($jsonData, true); // Decode as associative array
             
                 foreach ($data as $key => $value) {
-
-                    // 
+                    // Call external function to draw the card
                     renderItem($value);
                 }
             } else {

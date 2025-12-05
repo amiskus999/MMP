@@ -1,15 +1,20 @@
 <?php
 session_start();
 
-// We just check if the user is logged in.
 /*
-We check if Admin's flag is set in the post session. If is set, we allow access to the report page.
-This program employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS part.
+File: RequestReport.php
+Description: Admin-only report request page. 
+Checks if the user is logged in and is an admin before showing report options.
+Relies on admin flag stored in session. Redirects non-admins or not-logged-in users.
 */
+
+# Redirect if not logged in
 if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
     exit();
 }
+
+# Redirect if user is not an admin
 if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
     header('Location: Login.php');
     exit();
@@ -20,7 +25,9 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
 <head>
     <meta charset="UTF-8">
     <title>Marketplace - Request Report</title>
+
     <style>
+        /* Base page layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -32,6 +39,7 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             min-height: 100vh;
         }
 
+        /* Centered container box */
         .container {
             width: 500px;
             background: white;
@@ -41,12 +49,14 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             text-align: center;
         }
 
+        /* Page header */
         .header {
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 25px;
         }
 
+        /* Back link */
         .back {
             display: inline-block;
             color: #333;
@@ -55,6 +65,7 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             font-size: 16px;
         }
 
+        /* Form labels */
         label {
             font-size: 18px;
             font-weight: 500;
@@ -62,6 +73,7 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             margin-bottom: 15px;
         }
 
+        /* Dropdown menu for report type */
         select {
             width: 100%;
             padding: 12px;
@@ -71,6 +83,7 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             font-size: 16px;
         }
 
+        /* Report button */
         .report-btn {
             width: 50%;
             padding: 12px;
@@ -91,11 +104,17 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
 <body>
 
 <div class="container">
+
+    <!-- Page title -->
     <div class="header">Admin Reports</div>
+
+    <!-- Back to home -->
     <a href="index.php" class="back">&#8592; <span>Home</span></a>
 
+    <!-- Form selects which report to generate -->
     <form action="AdminReport.php" method="POST">
         <label for="report_criteria">Select a report to generate:</label>
+
         <select name="report_criteria" id="report_criteria">
             <option value="all">All Listings</option>
             <option value="New">Listings: New</option>
@@ -103,6 +122,7 @@ if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'true') {
             <option value="Used - Fair">Listings: Used - Fair</option>
             <option value="users">All Users</option>
         </select>
+
         <button type="submit" class="report-btn">Generate Report</button>
     </form>
 </div>

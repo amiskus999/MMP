@@ -1,7 +1,12 @@
 <?php
 session_start();
 
-// If the user is not logged in, redirect them to the Login page.
+/** 
+ * File: SellPage.php
+ * Description: This is the Sell page of the Midshipman Marketplace. 
+ * It displays all current listings from listings.json in a clean, responsive
+ * grid. Users must be logged in to view this page.
+ */
 if (!isset($_SESSION['user_email'])) {
     header('Location: Login.php');
     exit();
@@ -14,6 +19,7 @@ if (!isset($_SESSION['user_email'])) {
     <meta charset="UTF-8">
     <title>Midshipman Marketplace (Pure CSS)</title>
     <style>
+        /* Reset and basic layout */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -29,7 +35,7 @@ if (!isset($_SESSION['user_email'])) {
             min-height: 100vh;
         }
 
-        /* Main Container */
+        /* Main white card container */
         .marketplace-container {
             width: 100%;
             max-width: 1200px;
@@ -39,7 +45,7 @@ if (!isset($_SESSION['user_email'])) {
             padding: 32px;
         }
 
-        /* 1. Header (Flexbox) */
+        /* Header with title and navigation */
         .header {
             display: flex;
             justify-content: space-between;
@@ -61,12 +67,11 @@ if (!isset($_SESSION['user_email'])) {
             gap: 16px;
         }
 
-        /* Sell/Buy Tabs */
+        /* Sell/Buy tab buttons */
         .tabs {
             display: flex;
             background-color: #e5e7eb;
             border-radius: 9999px;
-            /* Pill shape */
             padding: 4px;
         }
 
@@ -82,7 +87,6 @@ if (!isset($_SESSION['user_email'])) {
 
         .tab-button.active {
             background-color: #2563eb;
-            /* Blue 600 */
             color: #ffffff;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
@@ -94,10 +98,9 @@ if (!isset($_SESSION['user_email'])) {
 
         .tab-button:not(.active):hover {
             background-color: #d1d5db;
-            /* Gray 200 */
         }
 
-        /* Account Icons */
+        /* Circular icons (home, profile, etc.) */
         .circle-icon {
             width: 40px;
             height: 40px;
@@ -110,16 +113,16 @@ if (!isset($_SESSION['user_email'])) {
 
         .home-icon {
             background-image: url('house_icon.jpg'); 
-            background-size: cover;    /* Scales image to fill the circle */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat; /* Prevents tiling */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .circle-icon:hover {
             background-color: #d1d5db;
         }
 
-        /* 2. Action Area (Flexbox) */
+        /* Create listing button area */
         .action-area {
             margin-bottom: 24px;
         }
@@ -141,25 +144,22 @@ if (!isset($_SESSION['user_email'])) {
 
         .create-button:hover {
             background-color: #1d4ed8;
-            /* Blue 700 */
         }
 
-        /* Plus Icon inside button */
         .plus-icon {
             width: 20px;
             height: 20px;
             fill: currentColor;
         }
 
-        /* 3. Product Grid (CSS Grid) */
+        /* Product grid layout */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            /* Default 4 columns */
             gap: 24px;
         }
 
-        /* Product Card */
+        /* Individual product card */
         .product-card {
             background-color: #ffffff;
             border: 1px solid #e5e7eb;
@@ -175,10 +175,10 @@ if (!isset($_SESSION['user_email'])) {
             transform: translateY(-2px);
         }
 
+        /* Image placeholder (will show real image from JSON) */
         .image-placeholder {
             height: 160px;
             background-color: #d1d5db;
-            /* Gray 300 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -215,32 +215,30 @@ if (!isset($_SESSION['user_email'])) {
 
 <body class="min-h-screen">
 
-    <!-- Main Marketplace Container -->
+    <!-- Main container -->
     <div class="marketplace-container">
 
-        <!-- 1. Top Header & Navigation -->
+        <!-- Header with title, tabs, and icons -->
         <header class="header">
             <h1>Midshipman Marketplace</h1>
 
             <div class="nav-controls">
-                <!-- Sell/Buy Tabs -->
+                <!-- Sell/Buy tabs -->
                 <div class="tabs">
                     <a href="#"><button class="tab-button active">Sell</button></a>
                     <a href="BuyPage.php"> <button class="tab-button">Buy</button></a>
                 </div>
 
-                <!-- Chat/Account Icons (Placeholder Circles) -->
-                <!-- TODO: Add small images here and links to those pages -->
+                <!-- Home and profile icons -->
                 <a href="index.php"> <div class="circle-icon home-icon" aria-label="Home"></div> </a>
                 <div class="circle-icon" aria-label="User Profile"></div>
             </div>
         </header>
 
-        <!-- 2. Action Area -->
+        <!-- Create listing button -->
         <div class="action-area">
-            <!-- Create Listing Button -->
             <a href="ListNewItem.html" style="text-decoration:none"> <button class="create-button">
-                    <!-- Plus Icon SVG -->
+                    <!-- Plus icon SVG -->
                     <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
@@ -250,20 +248,19 @@ if (!isset($_SESSION['user_email'])) {
                 </button> </a>
         </div>
 
-        <!-- 3. Product Grid (4x2 layout, responsive) -->
+        <!-- Product grid -->
         <main class="product-grid">
 
-            <!-- Read in the listings.json file -->
             <?php
-            $jsonFilePath = 'data/listings.json'; // Path to all selling items
+            // Load listings from JSON file
+            $jsonFilePath = 'data/listings.json';
             
             if (file_exists($jsonFilePath)) {
                 $jsonData = file_get_contents($jsonFilePath);
-                $data = json_decode($jsonData, true); // Decode as associative array
-            
-                foreach ($data as $key => $value) {
+                $data = json_decode($jsonData, true);
 
-                    // Print each product card
+                // Loop through each listing and output a card
+                foreach ($data as $key => $value) {
                     echo '<div class="product-card">';
                     echo '<div class="image-placeholder">';
                     $imagePath = $value['image_paths'][0];

@@ -1,4 +1,12 @@
 <?php
+/** 
+ *  File: submitListing.php
+ *  Description: This script handles the creation of a new marketplace listing. 
+ *  It receives form data + image uploads from ListNewItem.html, validates everything,
+ *  saves images to /uploads/, and appends the new listing to data/listings.json.
+ *  Returns JSON success/error messages.
+ */
+
 // --- Step 1: Session & Security ---
 session_start(); 
 
@@ -8,116 +16,117 @@ $_SESSION['user_email'] = "m299999@usna.edu";
 
 // Check user logged in.
 if (!isset($_SESSION['user_id'])) {
+    // User is not logged in - return JSON error
     echo json_encode(['success' => false, 'message' => 'You are not logged in.']);
     exit;
 }
 
-// Set header to return JSON
+// Tell browser we are returning JSON
 header('Content-Type: application/json');
 
-// Check submission of form
+// Only accept POST requests
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Check if any files were sent
+    // Make sure images were actually uploaded
     if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
         echo json_encode(['success' => false, 'message' => 'No images were uploaded.']);
         exit;
     }
 
     $target_dir = "uploads/"; 
-    $uploaded_image_paths = []; // Array to store paths of all uploaded images
-    $file_count = count($_FILES['images']['name']); // How many files were sent
+    $uploaded_image_paths = []; // Will hold final paths of all saved images
+    $file_count = count($_FILES['images']['name']); // Number of files sent
 
-    // Loop through each uploaded file
+    // Process each uploaded image one by one
     for ($i = 0; $i < $file_count; $i++) {
         
-        // Get this file's data
+        // Grab info for this specific file
         $file_tmp_name = $_FILES['images']['tmp_name'][$i];
         $file_name = $_FILES['images']['name'][$i];
         $file_size = $_FILES['images']['size'][$i];
         $file_error = $_FILES['images']['error'][$i];
 
-		// Check if there is an error within file
+        // Check for upload errors
         if ($file_error !== UPLOAD_ERR_OK) {
              echo json_encode(['success' => false, 'message' => 'Error uploading file: ' . $file_name]);
              exit;
         }
 
-        // Create a unique filename
-        $unique_filename = uniqid() . '_' . basename($file_name); // basename gets rid of the file path, uniqid creates id based on system time
+        // Generate a unique filename to prevent conflicts
+        $unique_filename = uniqid() . '_' . basename($file_name);
         $target_file = $target_dir . $unique_filename;
         
+        // Get file extension (lowercase)
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Validate file: make sure it is an image
+        // Verify the file is actually an image
         $check = getimagesize($file_tmp_name);
         if ($check === false) {
             echo json_encode(['success' => false, 'message' => 'File is not an image: ' . $file_name]);
             exit;
         }
 
-		// Check file is within size limit (5MB)
+        // Enforce 5MB size limit per image
         if ($file_size > 5000000) { 
             echo json_encode(['success' => false, 'message' => 'File is too large: ' . $file_name]);
             exit;
         }
 
-		// Check file type is supported
+        // Only allow common image types
         if (!in_array($imageFileType, ['jpg', 'png', 'jpeg', 'gif'])) {
             echo json_encode(['success' => false, 'message' => 'Invalid file type: ' . $file_name]);
             exit;
         }
         
-        // If validation passes, move the file to uploads file
+        // Move the uploaded file to the permanent uploads folder
         if (move_uploaded_file($file_tmp_name, $target_file)) {
-            // Add the new path to our array
-            $uploaded_image_paths[] = $target_file;
+            $uploaded_image_paths[] = $target_file; // Save path for later
         } else {
             echo json_encode(['success' => false, 'message' => 'Server error while moving file.']);
             exit;
         }
     }
     
-    // Get text data from $_POST (sent by FormData)
+    // Collect text fields from the form
     $title = $_POST['title'];
     $description = $_POST['description'];
     $price = (float)$_POST['price'];
     $condition = $_POST['condition'];
     $user_id = $_SESSION['user_id'];
 
-	// Create a new listing with all information needed
+    // Build the new listing array
     $newListing = [
-        'id' => uniqid('item_'),
-        'user_id' => $user_id,
+        'id' => uniqid('item_'),           // Unique ID for this item
+        'user_id' => $user_id,             // Who posted it
         'title' => $title,
         'description' => $description,
         'price' => $price,
         'condition' => $condition,
         'image_paths' => $uploaded_image_paths, 
-        'posted_at' => date('Y-m-d H:i:s'),
-        'is_active' => true
+        'posted_at' => date('Y-m-d H:i:s'), // Timestamp
+        'is_active' => true                // Visible on marketplace
     ];
 
-	// Upload data to listings.json
+    // Load existing listings (or start fresh if file doesn't exist)
     $db_file = 'data/listings.json';
     $listings = [];
     if (file_exists($db_file)) {
-        $json_data = file_get_contents($db_file);   // Get content from listings.json
-        $listings = json_decode($json_data, true);  // Decode into an array
+        $json_data = file_get_contents($db_file);
+        $listings = json_decode($json_data, true);
     }
 
+    // Add the new listing to the array
     $listings[] = $newListing;
 
+    // Save everything back to listings.json (pretty printed for readability)
     file_put_contents($db_file, json_encode($listings, JSON_PRETTY_PRINT));
 
-    
-    // The JavaScript from ListNewItem.html will read this and perform the redirect.
+    // Success - let the frontend know everything worked
     echo json_encode(['success' => true, 'message' => 'Listing created successfully.']);
     exit;
 
 } else {
-    // If not a POST request
-    // Send error
+    // Wrong request method (not POST)
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
     exit;
 }

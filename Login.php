@@ -1,9 +1,10 @@
 <?php
 /*
-* This program employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS part.
-It follows regular login procedures. The user is redirected to the BuyPage.php upon successful login. It also sets
-session variables for user email and admin status upon successful login. The session variables are then 
-used on other pages like the index.php to show user-specific content.
+* File: Login.php
+* Description: This program employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS part.
+* It follows regular login procedures. The user is redirected to the BuyPage.php upon successful login. It also sets
+* session variables for user email and admin status upon successful login. The session variables are then 
+* used on other pages like the index.php to show user-specific content.
 */
 session_start();
 // If the user is already logged in, redirect them to the BuyPage.

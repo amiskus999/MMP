@@ -1,6 +1,7 @@
 <?php
 /**
- * This program also employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS.
+ * File: AdminReport.php
+ * Description: This program also employs the user logic from Lab07. It was modified with the help of Gemini, especially the CSS.
  * It also builds on the report request logic from my RequestReport.php(Lab07) to generate admin reports. It was also modified with 
  * Gemini.
  */

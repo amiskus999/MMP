@@ -1,3 +1,9 @@
+<!--
+File: CreateAccount.html
+Description: HTML signup page for Midshipman Marketplace. Allows users to create an account
+and displays any server-provided error messages passed through URL parameters.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +11,7 @@
 <title>Midshipman Marketplace - Sign Up</title>
 
 <style>
+    /* Page base font and background */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -12,6 +19,7 @@
         padding: 40px;
     }
 
+    /* Main centered card container */
     .container {
         width: 650px;
         margin: auto;
@@ -22,14 +30,14 @@
         min-height: 500px;
     }
 
-    /* Header */
+    /* Page header text */
     .header {
         font-size: 28px;
         font-weight: bold;
         margin-bottom: 25px;
     }
 
-    /* Back link */
+    /* Back to home link */
     .back {
         display: flex;
         align-items: center;
@@ -43,51 +51,51 @@
         margin-left: 5px;
     }
 
-    /* Signup box */
+    /* Centered signup form area */
     .signup-box {
         max-width: 350px;
         margin: 0 auto;
         text-align: center;
         display: flex;
         flex-direction: column;
-        /* align-items: center; */
     }
 
+    /* Sub-header text */
     .signup-box h3 {
         font-weight: normal;
         margin-bottom: 25px;
     }
 
+    /* Text inputs for username, password, email */
     input {
         width: 100%;
-
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 10px;        
         margin-bottom: 18px;
-
         font-size: 16px;
         box-shadow: 0 1px 2px rgba(0,0,0,0.08);
     }
 
+    /* Sign up button styling */
     .signup-btn {
         width: 75%;
-
         padding: 12px;
         border: none;
         border-radius: 10px;
         margin-left: 15px;
-        
         background: #007bff;
         color: white;
         font-size: 17px;
         cursor: pointer;
     }
 
+    /* Button hover effect */
     .signup-btn:hover {
         background: #006fe0;
     }
 
+    /* Login link under the form */
     .login-text {
         margin-top: 12px;
         font-size: 14px;
@@ -105,8 +113,10 @@
 
 <div class="container">
 
+    <!-- Main page header -->
     <div class="header">Midshipman Marketplace</div>
 
+    <!-- Link back to welcome page -->
     <a href="Welcome.php" class="back">
         &#8592; <span>Home</span>
     </a>
@@ -114,18 +124,26 @@
     <div class="signup-box">
         <h3>Create an account</h3>
 
+        <!-- Error message placeholder populated by JS if URL contains ?error= -->
         <div id="error-message" style="color: red; margin-bottom: 15px;"></div>
 
+        <!-- Signup form that posts to CreateAccount.php -->
         <form action="CreateAccount.php" method="POST">
+
+            <!-- Username input -->
             <input type="text" id="username" name="username" placeholder="Username" required>
 
+            <!-- Password input -->
             <input type="password" name="password" placeholder="Password" required>
 
+            <!-- Email input -->
             <input type="email" id="email" name="email" placeholder="Email" required>
 
+            <!-- Submit button -->
             <button class="signup-btn" type="submit">Sign Up</button>
         </form>
 
+        <!-- Login redirect text -->
         <div class="login-text">
             Already have an account? <a href="Login.html">Login</a>
         </div>
@@ -134,19 +152,31 @@
 </div>
 
 <script>
+    /*
+        On page load:
+        - Read URL parameters
+        - Populate error message if ?error= exists
+        - Restore username/email fields if provided in the URL
+        (Useful after failed form submissions)
+    */
     window.onload = function() {
+
         const urlParams = new URLSearchParams(window.location.search);
+
+        // Display error message if provided
         const error = urlParams.get('error');
         if (error) {
             const errorDiv = document.getElementById('error-message');
             errorDiv.textContent = decodeURIComponent(error);
         }
 
+        // Repopulate username if provided in URL
         const username = urlParams.get('username');
         if (username) {
             document.getElementById('username').value = decodeURIComponent(username);
         }
 
+        // Repopulate email if provided in URL
         const email = urlParams.get('email');
         if (email) {
             document.getElementById('email').value = decodeURIComponent(email);

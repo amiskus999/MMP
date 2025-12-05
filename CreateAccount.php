@@ -1,6 +1,7 @@
 <?php
 /**
- * Handles user account creation, including validation and storage of user credentials. It builds on
+ * File: CreateAccount.php
+ * Description: Handles user account creation, including validation and storage of user credentials. It builds on
  * the user logic from my submit.php file Lab07 and was modified with the help of Gemini.
  */
 session_start();
