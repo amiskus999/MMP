@@ -117,6 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
     // If not a POST request
+    // Send error
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
     exit;
 }
